@@ -13,8 +13,8 @@ CORS(app)
 
 def init():
 
- version = request.args.get('version')
- composefilename=request.args.get('composefilename')
+#  version = request.args.get('version')
+#  composefilename=request.args.get('composefilename')
 
 
  version=request.json['version']
@@ -38,12 +38,12 @@ def init():
 
 @app.route('/volumes', methods=['POST'])
 def vol():
- addvolume =request.args.get('addvolume')
- composefilename=request.args.get('composefilename')
+#  addvolume =request.args.get('addvolume')
+#  composefilename=request.args.get('composefilename')
 
 
-#  addvolume =request.json['addvolume']
-#  composefilename=request.json['composefilename']                      #body params
+ addvolume =request.json['addvolume']
+ composefilename=request.json['composefilename']                      #body params
 
 #  with open("docker-compose.yml", "r") as f:
  with open(str(composefilename), 'r') as f:
@@ -68,14 +68,14 @@ def vol():
 @app.route('/appendvolumes', methods=['POST'])
 def appendvol():
 
- composefilename =request.args.get('composefilename') 
- volumename =request.args.get('volumename')
- path =request.args.get('path')
+#  composefilename =request.args.get('composefilename') 
+#  volumename =request.args.get('volumename')
+#  path =request.args.get('path')
 
 
-#  composefilename=request.json['composefilename'] 
-#  volumename =request.json['volumename']                           #body params
-#  path =request.json['path']
+ composefilename=request.json['composefilename'] 
+ volumename =request.json['volumename']                           #body params
+ path =request.json['path']
     
  with open(str(composefilename), "a+") as f:
 
@@ -91,16 +91,16 @@ def appendvol():
 @app.route('/appendenv', methods=['POST'])
 def appendenv():
 
- composefilename=request.args.get('composefilename')
- username =request.args.get('username')
- password =request.args.get('password')
- dbserver =request.args.get('dbserver')
+#  composefilename=request.args.get('composefilename')
+#  username =request.args.get('username')
+#  password =request.args.get('password')
+#  dbserver =request.args.get('dbserver')
 
 
-#  composefilename=request.json['composefilename']
-#  username =request.json['username']                  #body params
-#  password =request.json['password']
-#  dbserver =request.json['dbserver']    
+ composefilename=request.json['composefilename']
+ username =request.json['username']                  #body params
+ password =request.json['password']
+ dbserver =request.json['dbserver']    
 
 
  with open(str(composefilename), "a+") as f:
@@ -118,22 +118,22 @@ def appendenv():
 @app.route('/services', methods=['POST'])
 def service():
 
- composefilename=request.args.get('composefilename')
- servicename =request.args.get('servicename')           
- imagename = request.args.get('imagename')
- ports=request.args.get('ports')
- containername =request.args.get('containername')
- volume =request.args.get('volume')
- volumepath =request.args.get('volumepath')
+#  composefilename=request.args.get('composefilename')
+#  servicename =request.args.get('servicename')           
+#  imagename = request.args.get('imagename')
+#  ports=request.args.get('ports')
+#  containername =request.args.get('containername')
+#  volume =request.args.get('volume')
+#  volumepath =request.args.get('volumepath')
 
 
-#  composefilename=request.json['composefilename']
-#  servicename =request.json['servicename']          
-#  imagename = request.json['imagename']
-#  ports=request.json['ports']                                 #body params
-#  containername =request.json['containername']
-#  volume =request.json['volume']
-#  volumepath =request.json['volumepath']
+ composefilename=request.json['composefilename']
+ servicename =request.json['servicename']          
+ imagename = request.json['imagename']
+ ports=request.json['ports']                                 #body params
+ containername =request.json['containername']
+ volume =request.json['volume']
+ volumepath =request.json['volumepath']
 
 
 
@@ -159,13 +159,13 @@ def service():
 @app.route('/changes', methods=['POST'])
 def change():
 
-    composefilename=request.args.get('composefilename')    
-    stringtoreplace=request.args.get('stringtoreplace')
-    afterreplace=request.args.get('afterreplace')
+    # composefilename=request.args.get('composefilename')    
+    # stringtoreplace=request.args.get('stringtoreplace')
+    # afterreplace=request.args.get('afterreplace')
 
-    # composefilename=request.json['composefilename']         #body params
-    # strintoreplace=request.json['stringtoreplace']
-    # afterreplace=request.json['afterreplace']
+    composefilename=request.json['composefilename']         #body params
+    stringtoreplace=request.json['stringtoreplace']
+    afterreplace=request.json['afterreplace']
 
     f1 = open(str(composefilename),'r')
     data = f1.read()
