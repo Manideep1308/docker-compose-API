@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, request
 from flasgger import Swagger
 from flask_cors import CORS
@@ -6,12 +7,16 @@ CORS(app)
 swagger = Swagger(app)
 
 
-@app.route('/init')
+@app.route('/init', methods=['POST'])
 def init():
  """Example endpoint returning a devops data
     This is using docstrings for specifications.
     ---
     parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
       - name: version
         in: query
         type: string
@@ -50,12 +55,16 @@ def init():
    )
 
 
-@app.route('/volumes')
+@app.route('/volumes', methods=['POST'])
 def vol():
  """Example endpoint returning a devops data
     This is using docstrings for specifications.
     ---
     parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
       - name: addvolume
         in: query
         type: string
@@ -99,12 +108,16 @@ def vol():
 
 
 
-@app.route('/appendvolumes')
+@app.route('/appendvolumes', methods=['POST'])
 def appendvol():
  """Example endpoint returning a devops data
     This is using docstrings for specifications.
     ---
     parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
       - name: volumename
         in: query
         type: string
@@ -147,12 +160,16 @@ def appendvol():
    )         
 
 
-@app.route('/appendenv')
+@app.route('/appendenv', methods=['POST'])
 def appendenv():
  """Example endpoint returning a devops data
     This is using docstrings for specifications.
     ---
     parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
       - name: username
         in: query
         type: string
@@ -202,12 +219,16 @@ def appendenv():
      '}\n'
    )  
 
-@app.route('/services')
+@app.route('/services', methods=['POST'])
 def service():
  """Example endpoint returning a devops data
     This is using docstrings for specifications.
     ---
     parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
       - name: servicename
         in: query
         type: string
@@ -276,7 +297,68 @@ def service():
      '{\n'
      '   "status" : 200 \n'
      '}\n'
-   )        
+   )
+
+@app.route('/changes', methods=['POST'])
+def change():
+    """Example endpoint returning a devops data
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
+      - name: stringtoreplace
+        in: query
+        type: string
+        required: false        
+      - name: afterreplace
+        in: query
+        type: string
+        required: true        
+     
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """ 
+
+    composefilename=request.args.get('composefilename')    
+    stringtoreplace=request.args.get('stringtoreplace')
+    afterreplace=request.args.get('afterreplace')
+
+    # composefilename=request.json['composefilename']         #body params
+    # strintoreplace=request.json['stringtoreplace']
+    # afterreplace=request.json['afterreplace']
+
+    f1 = open(str(composefilename),'r')
+    data = f1.read()
+    data = data.replace(str(stringtoreplace), str(afterreplace))
+    f1.close()
+    f2 = open(str(composefilename),'w')
+    f2.write(data)
+    f2.close() 
+
+    return  (
+     '{\n'
+     '   "changingfrom" : "'+str(stringtoreplace)+'"\n'
+     '   "changingto" : "'+str(afterreplace)+'"\n'
+     '}\n'
+   )            
 
 # main()
 # home() 
