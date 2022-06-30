@@ -358,7 +358,76 @@ def change():
      '   "changingfrom" : "'+str(stringtoreplace)+'"\n'
      '   "changingto" : "'+str(afterreplace)+'"\n'
      '}\n'
-   )            
+   )  
+
+@app.route('/repeatedstringchanges', methods=['POST'])
+def repeat():
+    """Example endpoint returning a devops data
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
+      - name: nthoccurance
+        in: query
+        type: string
+        required: false
+      - name: stringtoreplace
+        in: query
+        type: string
+        required: false        
+      - name: afterreplace
+        in: query
+        type: string
+        required: true        
+     
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """ 
+
+    # composefilename=request.args.get('composefilename')    
+    # stringtoreplace=request.args.get('stringtoreplace')
+    # afterreplace=request.args.get('afterreplace')
+
+    composefilename=request.json['composefilename']
+    nthoccurance =request.json['nthoccurance']                                                                  #body params
+    stringtoreplace=request.json['stringtoreplace']
+    afterreplace=request.json['afterreplace']
+
+    f1 = open(str(composefilename),'r')
+    data = f1.read()
+    nth = int(nthoccurance)
+    data = data.replace(str(stringtoreplace), str(afterreplace), nth)
+    data = data.replace(str(afterreplace), str(stringtoreplace), nth-1)
+    f1.close()
+    f2 = open(str(composefilename),'w')
+    f2.write(data)
+    f2.close() 
+
+    return  (
+     '{\n'
+     '   "changingfrom" : "'+str(stringtoreplace)+'"\n'
+     '   "changingto" : "'+str(afterreplace)+'"\n'
+     '}\n'
+   ) 
+
 
 # main()
 # home() 

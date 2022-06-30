@@ -182,6 +182,34 @@ def change():
      '}\n'
    ) 
 
+@app.route('/repeatedstringchanges', methods=['POST'])
+def repeat():
+
+    # composefilename=request.args.get('composefilename')    
+    # stringtoreplace=request.args.get('stringtoreplace')
+    # afterreplace=request.args.get('afterreplace')
+
+    composefilename=request.json['composefilename']
+    nthoccurance =request.json['nthoccurance']                                                                  #body params
+    stringtoreplace=request.json['stringtoreplace']
+    afterreplace=request.json['afterreplace']
+
+    f1 = open(str(composefilename),'r')
+    data = f1.read()
+    nth = int(nthoccurance)
+    data = data.replace(str(stringtoreplace), str(afterreplace), nth)
+    data = data.replace(str(afterreplace), str(stringtoreplace), nth-1)
+    f1.close()
+    f2 = open(str(composefilename),'w')
+    f2.write(data)
+    f2.close() 
+
+    return  (
+     '{\n'
+     '   "changingfrom" : "'+str(stringtoreplace)+'"\n'
+     '   "changingto" : "'+str(afterreplace)+'"\n'
+     '}\n'
+   ) 
 
 
 # main()
