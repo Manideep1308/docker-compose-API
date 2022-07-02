@@ -10,7 +10,7 @@ swagger = Swagger(app)
 @app.route('/init', methods=['POST'])
 def init():
  """API for initializing the docker-compose file name with version
-    This is using docstrings for specifications.
+    This API is used to initialize the docker compose file with version number.
     ---
     parameters:
       - name: composefilename
@@ -60,7 +60,7 @@ def init():
 @app.route('/volumes', methods=['POST'])
 def vol():
  """Initialize volumes
-    This is using docstrings for specifications.
+    This API is used to initialize the volumes used for services.
     ---
     parameters:
       - name: composefilename
@@ -115,7 +115,7 @@ def vol():
 @app.route('/appendvolumes', methods=['POST'])
 def appendvol():
  """Appending volumes to the services
-    This is using docstrings for specifications.
+    This API is used to append the particular volume to particular service.
     ---
     parameters:
       - name: composefilename
@@ -168,7 +168,7 @@ def appendvol():
 @app.route('/appendenv', methods=['POST'])
 def appendenv():
  """Appending environemnt to the service
-    This is using docstrings for specifications.
+    This API is used to add environment parameters like username, password , database server to the service.
     ---
     parameters:
       - name: composefilename
@@ -228,7 +228,7 @@ def appendenv():
 @app.route('/services', methods=['POST'])
 def service():
  """Describe the services
-    This is using docstrings for specifications.
+    This API is used to add services to the compose file.
     ---
     parameters:
       - name: composefilename
@@ -309,7 +309,7 @@ def service():
 @app.route('/changes', methods=['POST'])
 def change():
     """Any changes can be made in compose file
-    This is using docstrings for specifications.
+    This API is used to make or replace some changes in compose file.
     ---
     parameters:
       - name: composefilename
@@ -370,7 +370,7 @@ def change():
 @app.route('/repeatedstringchanges', methods=['POST'])
 def repeat():
     """Changes can be made for repeated strings
-    This is using docstrings for specifications.
+    This API is used to make changes for the repeated strings in the compose file.
     ---
     parameters:
       - name: composefilename
