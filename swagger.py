@@ -1,5 +1,5 @@
-from crypt import methods
-from flask import Flask, request
+
+from flask import Flask, request, Response, json
 from flasgger import Swagger
 from flask_cors import CORS
 app = Flask(__name__)
@@ -434,6 +434,20 @@ def repeat():
      '   "changingto" : "'+str(afterreplace)+'"\n'
      '}\n'
    ) 
+
+
+
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+    res = {"error": str(error)}
+    return Response(status=500, mimetype="application/json", response=json.dumps(res))
+
+
+
+def error_401_handler(error):
+    res = {"error": "Unauthorized"}
+    return Response(status=401, mimetype="application/json", response=json.dumps(res))
+
 
 
 # main()
