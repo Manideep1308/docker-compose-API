@@ -369,7 +369,7 @@ def change():
 
 @app.route('/repeatedstringchanges', methods=['POST'])
 def repeat():
-    """Changes can be made of repeated strings
+    """Changes can be made for repeated strings
     This is using docstrings for specifications.
     ---
     parameters:
