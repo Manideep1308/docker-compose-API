@@ -31,7 +31,8 @@ def init():
 
  return  (
      '{\n'
-     '   "'+str(version)+'" : "added" \n'
+     '   "'+str(composefilename)+'" : "created" \n'
+     '   "version:'+str(version)+'" : "added" \n'
      '}\n'
    )  
 

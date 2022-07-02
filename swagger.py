@@ -42,15 +42,17 @@ def init():
     """
 
  version = request.args.get('version')
+ composefilename=request.args.get('composefilename') 
    
- with open("docker-compose.yml", 'w') as f:
+ with open(str(composefilename), 'w') as f:
         f.write("version: '" +str(version)+ "'\n")
         f.write("volumes :\n")
         f.write("services:\n")     
 
  return (
      '{\n'
-     '   "status" : 200 \n'
+     '   "'+str(composefilename)+'" : "created" \n'
+     '   "version:'+str(version)+'" : "added" \n'
      '}\n'
    )
 
@@ -89,20 +91,22 @@ def vol():
           rgb: ['red', 'green', 'blue']
     """
 
- addvolume =request.args.get('addvolume')   
+ addvolume =request.args.get('addvolume')
+ composefilename=request.args.get('composefilename') 
+   
 
- with open("docker-compose.yml", "r") as f:
+ with open(str(composefilename), "r") as f:
     contents = f.readlines()
 
  contents.insert(2, " "+str(addvolume)+":\n")
 
- with open("docker-compose.yml", "w") as f:
+ with open(str(composefilename), "w") as f:
     contents = "".join(contents)
     f.write(contents)       
 
  return (
      '{\n'
-     '   "status" : 200 \n'
+     '   "'+str(addvolume)+'" : "added" \n'
      '}\n'
    )         
 
@@ -145,17 +149,18 @@ def appendvol():
         examples:
           rgb: ['red', 'green', 'blue']
     """  
+ composefilename=request.args.get('composefilename') 
 
  volumename =request.args.get('volumename')
  path =request.args.get('path')
     
- with open("docker-compose.yml", "a+") as f:
+ with open(str(composefilename), "a+") as f:
 
        f.write("      - "+(volumename) +":/"+path+"\n")       
 
  return (
      '{\n'
-     '   "status" : 200 \n'
+     '   "'+str(volumename)+'" : "added" \n'
      '}\n'
    )         
 
@@ -205,9 +210,10 @@ def appendenv():
  username =request.args.get('username')
  password =request.args.get('password')
  dbserver =request.args.get('dbserver')   
+ composefilename=request.args.get('composefilename') 
 
 
- with open("docker-compose.yml", "a+") as f:
+ with open(str(composefilename), "a+") as f:
        f.write("    environmnet:\n")
        f.write("      ADMINUSERNAME: "+str(username)+"\n")
        f.write("      ADMINPASSWORD: "+str(password)+"\n")
@@ -215,7 +221,7 @@ def appendenv():
 
  return (
      '{\n'
-     '   "status" : 200 \n'
+     '   "'+str(dbserver)+'" : "added" \n'
      '}\n'
    )  
 
@@ -278,10 +284,11 @@ def service():
  containername =request.args.get('containername')
  volume =request.args.get('volume')
  volumepath =request.args.get('volumepath')
+ composefilename=request.args.get('composefilename') 
 
 
 
- with open("docker-compose.yml", "a+") as f1:
+ with open(str(composefilename), "a+") as f1:
          f1.write("  "+str(servicename)+":\n")
          f1.write("    image: " + str(imagename) + "\n")
          f1.write("    ports:\n")
@@ -295,7 +302,7 @@ def service():
 
  return (
      '{\n'
-     '   "status" : 200 \n'
+     '   "'+str(servicename)+'" : "added" \n'
      '}\n'
    )
 
