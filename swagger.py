@@ -9,7 +9,7 @@ swagger = Swagger(app)
 
 @app.route('/init', methods=['POST'])
 def init():
- """Example endpoint returning a devops data
+ """API for initializing the docker-compose file name with version
     This is using docstrings for specifications.
     ---
     parameters:
@@ -59,7 +59,7 @@ def init():
 
 @app.route('/volumes', methods=['POST'])
 def vol():
- """Example endpoint returning a devops data
+ """Initialize volumes
     This is using docstrings for specifications.
     ---
     parameters:
@@ -114,7 +114,7 @@ def vol():
 
 @app.route('/appendvolumes', methods=['POST'])
 def appendvol():
- """Example endpoint returning a devops data
+ """Appending volumes to the services
     This is using docstrings for specifications.
     ---
     parameters:
@@ -167,7 +167,7 @@ def appendvol():
 
 @app.route('/appendenv', methods=['POST'])
 def appendenv():
- """Example endpoint returning a devops data
+ """Appending environemnt to the service
     This is using docstrings for specifications.
     ---
     parameters:
@@ -227,7 +227,7 @@ def appendenv():
 
 @app.route('/services', methods=['POST'])
 def service():
- """Example endpoint returning a devops data
+ """Describe the services
     This is using docstrings for specifications.
     ---
     parameters:
@@ -308,7 +308,7 @@ def service():
 
 @app.route('/changes', methods=['POST'])
 def change():
-    """Example endpoint returning a devops data
+    """Any changes can be made in compose file
     This is using docstrings for specifications.
     ---
     parameters:
@@ -369,7 +369,7 @@ def change():
 
 @app.route('/repeatedstringchanges', methods=['POST'])
 def repeat():
-    """Example endpoint returning a devops data
+    """Changes can be made of repeated strings
     This is using docstrings for specifications.
     ---
     parameters:
