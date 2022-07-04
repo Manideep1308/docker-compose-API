@@ -4,6 +4,13 @@ from flasgger import Swagger
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app) 
+app.config['SWAGGER'] = {
+    'title': 'Docker Compose API',
+    'uiversion': 3,
+    'version': "1.0.0",
+    'description': "This is a simple docker-compose swagger UI where we can make the yaml files with the use of all APIs below. ",
+
+}
 swagger = Swagger(app)
 
 
