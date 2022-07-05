@@ -1,5 +1,5 @@
-
-from flask import Flask, request, Response, json
+from crypt import methods
+from flask import Flask, request, Response, json, render_template
 from flasgger import Swagger
 from flask_cors import CORS
 app = Flask(__name__)
@@ -9,7 +9,7 @@ app.config['SWAGGER'] = {
     'uiversion': 3,
     'version': "1.0.0",
     'description': "This is a simple docker-compose swagger UI where we can make the yaml files with the use of all APIs below. ",
-
+    # 'hide_top_bar': True,
 }
 swagger = Swagger(app)
 
@@ -442,7 +442,45 @@ def repeat():
      '}\n'
    ) 
 
+@app.route('/read', methods=['POST', 'GET'])
+def show():
+  """Any changes can be made in compose file
+    This API is used to make or replace some changes in compose file.
+    ---
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false  
+     
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        content:
+            application/table:
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """ 
 
+  composefilename=request.args.get('composefilename')
+  f= open(str(composefilename), 'r')
+  list=f.readlines() 
+
+
+
+  return render_template("table.html", len =len(list), list=list)
 
 @app.errorhandler(Exception)
 def all_exception_handler(error):
