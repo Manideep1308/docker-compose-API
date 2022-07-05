@@ -442,7 +442,7 @@ def repeat():
      '}\n'
    ) 
 
-@app.route('/read', methods=['POST', 'GET'])
+@app.route('/read', methods=['POST'])
 def show():
   """Any changes can be made in compose file
     This API is used to make or replace some changes in compose file.
