@@ -49,7 +49,7 @@ def appendenv():
     f.write(contents) 
    return  (
      '{\n'
-     '   "'+str(dbserver)+'" : "added" \n'
+     '   "'+str(append)+'" : "appended" \n'
      '}\n'
    ) 
 
@@ -65,7 +65,7 @@ def appendenv():
     f.write(contents) 
    return  (
      '{\n'
-     '   "'+str(volumename)+'" : "added" \n'
+     '   "'+str(append)+'" : "appended" \n'
      '}\n'
    ) 
 
