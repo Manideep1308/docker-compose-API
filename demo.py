@@ -2,6 +2,7 @@ from __future__ import print_function
 from flask import Flask, request, render_template, jsonify, json, Response
 from flask_cors import CORS
 import sys
+import os
 
 app =Flask(__name__)
 CORS(app)
@@ -94,7 +95,45 @@ def test():
     '}\n'
    ) 
     
- 
+
+@app.route('/deletemultiple', methods=['POST'])
+def delete_multiple_lines():
+    
+    filename=request.json['filename']
+    index=request.json['index']
+
+
+    is_skipped = False
+    counter = 0
+    original_file=filename
+    line_numbers=index
+        
+    dummy_file = original_file + '.bak'
+    with open(original_file, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+     
+        for line in read_obj:
+           
+            if counter not in line_numbers:
+                write_obj.write(line)
+            else:
+                is_skipped = True
+            counter += 1
+   
+    if is_skipped:
+        os.remove(original_file)
+        os.rename(dummy_file, original_file)
+    else:
+        os.remove(dummy_file)
+
+
+    return  (
+     '{\n'
+     '   "'+str(index)+' lines" : "deleted" \n'
+     '}\n'
+   ) 
+
+
+
 
 @app.errorhandler(Exception)
 def all_exception_handler(error):
