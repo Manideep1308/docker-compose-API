@@ -7,7 +7,7 @@ import os
 app =Flask(__name__)
 CORS(app)
 
-@app.route('/show', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def home():
 
  composefilename=request.json['composefilename']

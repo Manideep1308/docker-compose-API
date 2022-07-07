@@ -2,6 +2,7 @@ from crypt import methods
 from flask import Flask, request, Response, json, render_template
 from flasgger import Swagger
 from flask_cors import CORS
+import os
 app = Flask(__name__)
 CORS(app) 
 app.config['SWAGGER'] = {
@@ -416,14 +417,15 @@ def repeat():
           rgb: ['red', 'green', 'blue']
     """ 
 
-    # composefilename=request.args.get('composefilename')    
-    # stringtoreplace=request.args.get('stringtoreplace')
-    # afterreplace=request.args.get('afterreplace')
+    composefilename=request.args.get('composefilename')
+    nthoccurance =request.args.get('nthoccurance')   
+    stringtoreplace=request.args.get('stringtoreplace')
+    afterreplace=request.args.get('afterreplace')
 
-    composefilename=request.json['composefilename']
-    nthoccurance =request.json['nthoccurance']                                                                  #body params
-    stringtoreplace=request.json['stringtoreplace']
-    afterreplace=request.json['afterreplace']
+    # composefilename=request.json['composefilename']
+    # nthoccurance =request.json['nthoccurance']                                                                  #body params
+    # stringtoreplace=request.json['stringtoreplace']
+    # afterreplace=request.json['afterreplace']
 
     f1 = open(str(composefilename),'r')
     data = f1.read()
@@ -442,7 +444,7 @@ def repeat():
      '}\n'
    ) 
 
-@app.route('/read', methods=['POST'])
+@app.route('/indexes', methods=['POST'])
 def show():
   """Any changes can be made in compose file
     This API is used to make or replace some changes in compose file.
@@ -481,6 +483,242 @@ def show():
 
 
   return render_template("table.html", len =len(list), list=list)
+
+@app.route('/append', methods=['POST'])
+def volenv():
+ """Appending the volumes or environment to specific index
+    This API is used to add volumes or environment at middle based on index value.
+    ---
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
+      - name: append
+        in: query
+        type: string
+        required: false
+      - name: volumename
+        in: query
+        type: string
+        required: false        
+      - name: path
+        in: query
+        type: string
+        required: true    
+      - name: username
+        in: query
+        type: string
+        required: false
+      - name: password
+        in: query
+        type: string
+        required: true       
+      - name: dbserver
+        in: query
+        type: string
+        required: false
+      - name: index
+        in: query
+        type: string
+        required: false      
+     
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """ 
+
+ composefilename=request.args.get('composefilename')
+ append=request.args.get('append')
+ volumename =request.args.get('volumename')                           #body param
+ path =request.args.get('path')
+ username =request.args.get('username')                 #body params
+ password =request.args.get('password')
+ dbserver =request.args.get('dbserver')
+ index = request.args.get('index')
+
+
+ data1=("    environmnet:\n"
+        "      ADMINUSERNAME: "+str(username)+"\n"
+        "      ADMINPASSWORD: "+str(password)+"\n"
+        "      SERVER: "+str(dbserver)+"\n") 
+
+ data2 =("      - "+(volumename) +":/"+path+"\n") 
+
+
+
+ if(str(append)=='volume'):       
+
+   with open(str(composefilename), 'r') as f:
+    contents = f.readlines()
+   contents.insert(int(index), data2)
+   with open(str(composefilename), "w") as f:
+    contents = "".join(contents)
+    f.write(contents) 
+   return  (
+     '{\n'
+     '   "'+str(append)+'" : "appended" \n'
+     '}\n'
+   ) 
+
+
+
+ if(str(append) =='environment'):       
+
+   with open(str(composefilename), 'r') as f:
+     contents = f.readlines()
+   contents.insert(int(index), data1)
+   with open(str(composefilename), "w") as f:
+    contents = "".join(contents)
+    f.write(contents) 
+   return  (
+     '{\n'
+     '   "'+str(append)+'" : "appended" \n'
+     '}\n'
+   ) 
+
+ else:
+        return 'not matched'
+
+
+
+
+
+@app.route('/delete', methods =['POST']) 
+def test():
+ """Delete the single line using index
+    This API is used to delete the single line using index value.
+    ---
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
+      - name: index
+        in: query
+        type: string
+        required: true
+      
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """
+  
+ composefilename=request.args.get('composefilename')
+ index=request.args.get('index')
+
+ with open(str(composefilename), "r+") as f:
+    lines = f.readlines()
+    del lines[int(index)]  # use linenum - 1 if linenum starts from 1
+    f.seek(0)
+    f.truncate()
+    f.writelines(lines)
+
+ return(
+    '{\n'
+     '   "'+str(index)+'" : "deleted" \n'
+    '}\n'
+   ) 
+    
+
+@app.route('/deletemultiple', methods=['POST'])
+def delete_multiple_lines():
+    """Deleting multiple lines
+    This API is used to delete multiple lines using the index.
+    ---
+    parameters:
+
+        - in: body
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+            required:
+              - filename
+            properties:
+              filename:
+                type: string
+              index:
+               type: string
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """
+    
+    filename=request.json['filename']
+    index=request.json['index']
+
+    is_skipped = False
+    counter = 0
+    original_file=filename
+    line_numbers=index
+        
+    dummy_file = original_file + '.bak'
+    with open(original_file, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+     
+        for line in read_obj:
+           
+            if counter not in line_numbers:
+                write_obj.write(line)
+            else:
+                is_skipped = True
+            counter += 1
+   
+    if is_skipped:
+        os.remove(original_file)
+        os.rename(dummy_file, original_file)
+    else:
+        os.remove(dummy_file)
+
+
+    return  (
+     '{\n'
+     '   "'+str(index)+' lines" : "deleted" \n'
+     '}\n'
+   ) 
+
 
 @app.errorhandler(Exception)
 def all_exception_handler(error):
