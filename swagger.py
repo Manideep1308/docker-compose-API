@@ -552,7 +552,7 @@ def volenv():
  index = request.args.get('index')
 
 
- data1=("    environmnet:\n"
+ data1=("    environment:\n"
         "      ADMINUSERNAME: "+str(username)+"\n"
         "      ADMINPASSWORD: "+str(password)+"\n"
         "      SERVER: "+str(dbserver)+"\n") 
