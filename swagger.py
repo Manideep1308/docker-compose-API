@@ -9,7 +9,8 @@ app.config['SWAGGER'] = {
     'title': 'Docker Compose API',
     'uiversion': 3,
     'version': "1.0.0",
-    'description': "This is a simple docker-compose swagger UI where we can make the yaml files with the use of all APIs below. ",
+    'description': "This is a simple `docker-compose` swagger UI where we can make the yaml files with the use of all APIs below. ",
+    'termsOfService': "http://swagger.io/terms/",
     # 'hide_top_bar': True,
 }
 swagger = Swagger(app)
@@ -18,7 +19,7 @@ swagger = Swagger(app)
 @app.route('/init', methods=['POST'])
 def init():
  """API for initializing the docker-compose file name with version
-    This API is used to initialize the docker compose file with version number.
+    This API is used to `initialize the docker compose` file with version number.
     ---
     tags:
       - "Make the docker-compose"
@@ -70,7 +71,7 @@ def init():
 @app.route('/volumes', methods=['POST'])
 def vol():
  """Initialize volumes
-    This API is used to initialize the volumes used for services.
+    This API is used to `initialize the volumes` used for services.
     ---
     tags:
       - "Make the docker-compose"
@@ -127,7 +128,7 @@ def vol():
 @app.route('/appendvolumes', methods=['POST'])
 def appendvol():
  """Appending volumes to the services
-    This API is used to append the particular volume to particular service.
+    This API is used to `append the particular volume` to particular service.
     ---
     tags:
       - "Make the docker-compose"
@@ -182,7 +183,7 @@ def appendvol():
 @app.route('/appendenv', methods=['POST'])
 def appendenv():
  """Appending environemnt to the service
-    This API is used to add environment parameters like username, password , database server to the service.
+    This API is used to add `environment` parameters like username, password , database server to the service.
     ---
     tags:
       - "Make the docker-compose"
@@ -244,8 +245,9 @@ def appendenv():
 @app.route('/services', methods=['POST'])
 def service():
  """Describe the services
-    This API is used to add services to the compose file.
+    This API is used to `add services` to the compose file.
     ---
+    
     tags:
       - "Make the docker-compose"
     parameters:
@@ -327,7 +329,7 @@ def service():
 @app.route('/changes', methods=['POST'])
 def change():
     """Any changes can be made in compose file
-    This API is used to make or replace some changes in compose file.
+    This API is used to `make or replace some changes` in compose file.
     ---
     tags:
       - "Make the changes"
@@ -390,7 +392,7 @@ def change():
 @app.route('/repeatedstringchanges', methods=['POST'])
 def repeat():
     """Changes can be made for repeated strings
-    This API is used to make changes for the repeated strings in the compose file.
+    This API is used to `make changes for the repeated strings` in the compose file.
     ---
     tags:
       - "Make the changes"
@@ -460,8 +462,8 @@ def repeat():
 
 @app.route('/indexes', methods=['POST'])
 def show():
-  """Any changes can be made in compose file
-    This API is used to make or replace some changes in compose file.
+  """Get the index values of compose file
+    This API is used to `get the index values` of compose file.
     ---
     tags:
       - "Get the index"
@@ -503,7 +505,7 @@ def show():
 @app.route('/append', methods=['POST'])
 def volenv():
  """Appending the volumes or environment to specific index
-    This API is used to add volumes or environment at middle based on index value.
+    This API is used to `add volumes or environment` at middle based on index value.
     ---
     tags:
       - "Make the changes"
@@ -619,7 +621,7 @@ def volenv():
 @app.route('/delete', methods =['POST']) 
 def test():
  """Delete the single line using index
-    This API is used to delete the single line using index value.
+    This API is used to `delete the single line` using index value.
     ---
     tags:
       - "Make the changes"
@@ -672,7 +674,7 @@ def test():
 @app.route('/deletemultiple', methods=['POST'])
 def delete_multiple_lines():
     """Deleting multiple lines
-    This API is used to delete multiple lines using the index.
+    This API is used to `delete multiple lines` using the index.
     ---
     tags:
       - "Make the changes"
