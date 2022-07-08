@@ -20,6 +20,8 @@ def init():
  """API for initializing the docker-compose file name with version
     This API is used to initialize the docker compose file with version number.
     ---
+    tags:
+      - "Make the docker-compose"
     parameters:
       - name: composefilename
         in: query
@@ -70,6 +72,8 @@ def vol():
  """Initialize volumes
     This API is used to initialize the volumes used for services.
     ---
+    tags:
+      - "Make the docker-compose"
     parameters:
       - name: composefilename
         in: query
@@ -125,6 +129,8 @@ def appendvol():
  """Appending volumes to the services
     This API is used to append the particular volume to particular service.
     ---
+    tags:
+      - "Make the docker-compose"
     parameters:
       - name: composefilename
         in: query
@@ -178,6 +184,8 @@ def appendenv():
  """Appending environemnt to the service
     This API is used to add environment parameters like username, password , database server to the service.
     ---
+    tags:
+      - "Make the docker-compose"
     parameters:
       - name: composefilename
         in: query
@@ -238,6 +246,8 @@ def service():
  """Describe the services
     This API is used to add services to the compose file.
     ---
+    tags:
+      - "Make the docker-compose"
     parameters:
       - name: composefilename
         in: query
@@ -319,6 +329,8 @@ def change():
     """Any changes can be made in compose file
     This API is used to make or replace some changes in compose file.
     ---
+    tags:
+      - "Make the changes"
     parameters:
       - name: composefilename
         in: query
@@ -380,6 +392,8 @@ def repeat():
     """Changes can be made for repeated strings
     This API is used to make changes for the repeated strings in the compose file.
     ---
+    tags:
+      - "Make the changes"
     parameters:
       - name: composefilename
         in: query
@@ -449,6 +463,8 @@ def show():
   """Any changes can be made in compose file
     This API is used to make or replace some changes in compose file.
     ---
+    tags:
+      - "Get the index"
     parameters:
       - name: composefilename
         in: query
@@ -489,6 +505,8 @@ def volenv():
  """Appending the volumes or environment to specific index
     This API is used to add volumes or environment at middle based on index value.
     ---
+    tags:
+      - "Make the changes"
     parameters:
       - name: composefilename
         in: query
@@ -603,6 +621,8 @@ def test():
  """Delete the single line using index
     This API is used to delete the single line using index value.
     ---
+    tags:
+      - "Make the changes"
     parameters:
       - name: composefilename
         in: query
@@ -654,6 +674,8 @@ def delete_multiple_lines():
     """Deleting multiple lines
     This API is used to delete multiple lines using the index.
     ---
+    tags:
+      - "Make the changes"
     parameters:
 
         - in: body
