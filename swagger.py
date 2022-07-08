@@ -389,7 +389,7 @@ def change():
      '}\n'
    )  
 
-@app.route('/repeatedstringchanges', methods=['POST'])
+@app.route('/repeatedchanges', methods=['POST'])
 def repeat():
     """Changes can be made for repeated strings
     This API is used to `make changes for the repeated strings` in the compose file.
@@ -502,19 +502,15 @@ def show():
 
   return render_template("table.html", len =len(list), list=list)
 
-@app.route('/append', methods=['POST'])
-def volenv():
+@app.route('/appendvolumeusingindex', methods=['POST'])
+def volappen():
  """Appending the volumes or environment to specific index
-    This API is used to `add volumes or environment` at middle based on index value.
+    This API is used to `add volumes` at middle based on index value.
     ---
     tags:
       - "Make the changes"
     parameters:
       - name: composefilename
-        in: query
-        type: string
-        required: false
-      - name: append
         in: query
         type: string
         required: false
@@ -525,22 +521,10 @@ def volenv():
       - name: path
         in: query
         type: string
-        required: true    
-      - name: username
-        in: query
-        type: string
-        required: false
-      - name: password
-        in: query
-        type: string
-        required: true       
-      - name: dbserver
-        in: query
-        type: string
-        required: false
+        required: false    
       - name: index
         in: query
-        type: string
+        type: integer
         required: false      
      
     definitions:
@@ -563,9 +547,79 @@ def volenv():
     """ 
 
  composefilename=request.args.get('composefilename')
- append=request.args.get('append')
  volumename =request.args.get('volumename')                           #body param
  path =request.args.get('path')
+ index = request.args.get('index')
+
+ data2 =("      - "+(volumename) +":/"+path+"\n") 
+
+
+
+    
+
+ with open(str(composefilename), 'r') as f:
+    contents = f.readlines()
+ contents.insert(int(index), data2)
+ with open(str(composefilename), "w") as f:
+    contents = "".join(contents)
+    f.write(contents) 
+ return  (
+     '{\n'
+     '   "'+str(volumename)+'" : "appended" \n'
+     '}\n'
+   ) 
+
+
+
+@app.route('/appendenvusingindex', methods=['POST'])
+def env():
+ """Appending the environment to specific index
+    This API is used to `add environment` at middle based on index value.
+    ---
+    tags:
+      - "Make the changes"
+    parameters:
+      - name: composefilename
+        in: query
+        type: string
+        required: false
+      - name: username
+        in: query
+        type: string
+        required: false
+      - name: password
+        in: query
+        type: string
+        required: false       
+      - name: dbserver
+        in: query
+        type: string
+        required: false
+      - name: index
+        in: query
+        type: integer
+        required: false      
+     
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """ 
+
+ composefilename=request.args.get('composefilename')
  username =request.args.get('username')                 #body params
  password =request.args.get('password')
  dbserver =request.args.get('dbserver')
@@ -573,46 +627,25 @@ def volenv():
 
 
  data1=("    environment:\n"
-        "      ADMINUSERNAME: "+str(username)+"\n"
-        "      ADMINPASSWORD: "+str(password)+"\n"
-        "      SERVER: "+str(dbserver)+"\n") 
-
- data2 =("      - "+(volumename) +":/"+path+"\n") 
+        "      ADMINUSERNAME: "+(username)+"\n"
+        "      ADMINPASSWORD: "+(password)+"\n"
+        "      SERVER: "+(dbserver)+"\n") 
 
 
 
- if(str(append)=='volume'):       
+     
 
-   with open(str(composefilename), 'r') as f:
-    contents = f.readlines()
-   contents.insert(int(index), data2)
-   with open(str(composefilename), "w") as f:
-    contents = "".join(contents)
-    f.write(contents) 
-   return  (
-     '{\n'
-     '   "'+str(append)+'" : "appended" \n'
-     '}\n'
-   ) 
-
-
-
- if(str(append) =='environment'):       
-
-   with open(str(composefilename), 'r') as f:
+ with open(str(composefilename), 'r') as f:
      contents = f.readlines()
-   contents.insert(int(index), data1)
-   with open(str(composefilename), "w") as f:
+ contents.insert(int(index), data1)
+ with open(str(composefilename), "w") as f:
     contents = "".join(contents)
     f.write(contents) 
-   return  (
+ return  (
      '{\n'
-     '   "'+str(append)+'" : "appended" \n'
+     '   "'+str(dbserver)+'" : "appended" \n'
      '}\n'
    ) 
-
- else:
-        return 'not matched'
 
 
 
