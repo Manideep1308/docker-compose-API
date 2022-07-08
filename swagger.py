@@ -22,7 +22,7 @@ def init():
     This API is used to `initialize the docker compose` file with version number.
     ---
     tags:
-      - "Make the docker-compose"
+      - "Make the docker-compose yaml"
     parameters:
       - name: composefilename
         in: query
@@ -74,7 +74,7 @@ def vol():
     This API is used to `initialize the volumes` used for services.
     ---
     tags:
-      - "Make the docker-compose"
+      - "Make the docker-compose yaml"
     parameters:
       - name: composefilename
         in: query
@@ -131,7 +131,7 @@ def appendvol():
     This API is used to `append the particular volume` to particular service.
     ---
     tags:
-      - "Make the docker-compose"
+      - "Make the docker-compose yaml"
     parameters:
       - name: composefilename
         in: query
@@ -186,7 +186,7 @@ def appendenv():
     This API is used to add `environment` parameters like username, password , database server to the service.
     ---
     tags:
-      - "Make the docker-compose"
+      - "Make the docker-compose yaml"
     parameters:
       - name: composefilename
         in: query
@@ -249,7 +249,7 @@ def service():
     ---
     
     tags:
-      - "Make the docker-compose"
+      - "Make the docker-compose yaml"
     parameters:
       - name: composefilename
         in: query
@@ -332,7 +332,7 @@ def change():
     This API is used to `make or replace some changes` in compose file.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
       - name: composefilename
         in: query
@@ -395,7 +395,7 @@ def repeat():
     This API is used to `make changes for the repeated strings` in the compose file.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
       - name: composefilename
         in: query
@@ -466,7 +466,7 @@ def show():
     This API is used to `get the index values` of compose file.
     ---
     tags:
-      - "Get the index"
+      - "Get the indexes"
     parameters:
       - name: composefilename
         in: query
@@ -508,7 +508,7 @@ def volappen():
     This API is used to `add volumes` at middle based on index value.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
       - name: composefilename
         in: query
@@ -577,7 +577,7 @@ def env():
     This API is used to `add environment` at middle based on index value.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
       - name: composefilename
         in: query
@@ -657,7 +657,7 @@ def test():
     This API is used to `delete the single line` using index value.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
       - name: composefilename
         in: query
@@ -710,7 +710,7 @@ def delete_multiple_lines():
     This API is used to `delete multiple lines` using the index.
     ---
     tags:
-      - "Make the changes"
+      - "Make the changes in yaml"
     parameters:
 
         - in: body
