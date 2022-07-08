@@ -222,7 +222,7 @@ def appendenv():
 
 
  with open(str(composefilename), "a+") as f:
-       f.write("    environmnet:\n")
+       f.write("    environment:\n")
        f.write("      ADMINUSERNAME: "+str(username)+"\n")
        f.write("      ADMINPASSWORD: "+str(password)+"\n")
        f.write("      SERVER: "+str(dbserver)+"\n")           
