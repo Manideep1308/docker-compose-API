@@ -23,7 +23,7 @@ def init():
 #  with open("docker-compose.yml", 'w') as f:
  with open(str(composefilename), 'w') as f:
         f.write("version: '" +str(version)+ "'\n")
-        f.write("volumes :\n")
+        # f.write("volumes :\n")
         f.write("services:\n")
 
 #  print(request.json['version']) 
@@ -78,9 +78,10 @@ def appendvol():
  volumename =request.json['volumename']                           #body params
  path =request.json['path']
     
- with open(str(composefilename), "a+") as f:
+ with open(str(composefilename), "a+") as f1:
 
-       f.write("      - "+(volumename) +":/"+path+"\n")       
+         f1.write("    volumes:\n")
+         f1.write("      - "+volumename+":"+path+"\n")
 
  return  (
      '{\n'
@@ -133,8 +134,8 @@ def service():
  imagename = request.json['imagename']
  ports=request.json['ports']                                 #body params
  containername =request.json['containername']
- volume =request.json['volume']
- volumepath =request.json['volumepath']
+#  volume =request.json['volume']
+#  volumepath =request.json['volumepath']
 
 
 
@@ -143,9 +144,9 @@ def service():
          f1.write("    image: " + str(imagename) + "\n")
          f1.write("    ports:\n")
          f1.write("     - '" +str(ports)+":"+str(ports)+"'\n")
+         f1.write("    restart: unless-stopped\n")
          f1.write("    container_name: " + str(containername) + "\n")
-         f1.write("    volumes:\n")
-         f1.write("      - "+volume+":/"+volumepath+"\n")
+
          f1.close()
       
       
@@ -341,6 +342,111 @@ def delete_multiple_lines():
    ) 
 
 
+
+
+@app.route('/copyfiles', methods=['POST'])
+def method1():
+    keyname=request.args.get('keyname')
+    password=request.args.get('password')
+    filename=request.args.get('filename')
+    username=request.args.get('username')
+    ipaddress=request.args.get('ipaddress')
+    path=request.args.get('path')
+    cloud=request.args.get('cloud')
+
+    if(cloud =='aws'):
+     os.system('/bin/bash --rcfile sh shell1.sh '+ str(keyname) + ' ' + str(filename) + ' ' + username + ' ' + ipaddress + ' ' + str(path))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+    if(cloud =='azure'):
+     os.system('/bin/bash --rcfile sh shell5.sh '+ str(username) + ' ' + str(password) + ' ' + ipaddress + ' ' + filename + ' ' + str(path))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+
+
+@app.route('/installdocker', methods=['POST'])
+def method2():
+    keyname=request.args.get('keyname')
+    password=request.args.get('password')
+    cloud=request.args.get('cloud')
+    username=request.args.get('username')
+    ipaddress=request.args.get('ipaddress')
+
+    if(cloud=='aws'):
+     os.system('/bin/bash --rcfile sh shell2.sh '+ str(keyname) + ' ' + username + ' ' + str(ipaddress))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+    if(cloud=='azure'):
+     os.system('/bin/bash --rcfile sh shell6.sh '+ str(username) + ' ' + password + ' ' + str(ipaddress))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+
+@app.route('/composeup', methods=['POST'])
+def method3():
+    keyname=request.args.get('keyname')
+    password=request.args.get('password')
+    cloud=request.args.get('cloud')
+    username=request.args.get('username')
+    ipaddress=request.args.get('ipaddress')
+    filename=request.args.get('filename')
+
+    if(cloud=='aws'):
+     os.system('/bin/bash --rcfile sh shell3.sh '+ str(keyname) + ' ' + username + ' ' + str(ipaddress)+ ' ' + str(filename))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+    if(cloud=='azure'):
+     os.system('/bin/bash --rcfile sh shell7.sh '+ str(username) + ' ' + password + ' ' + str(ipaddress)+ ' ' + str(filename))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )   
+
+@app.route('/composedown', methods=['POST'])
+def method4():
+    keyname=request.args.get('keyname')
+    password=request.args.get('password')
+    cloud=request.args.get('cloud')    
+    username=request.args.get('username')
+    ipaddress=request.args.get('ipaddress')
+    filename=request.args.get('filename')
+
+
+    if(cloud=='aws'):
+     os.system('/bin/bash --rcfile sh shell4.sh '+ str(keyname) + ' ' + username + ' ' + str(ipaddress)+ ' ' + str(filename))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )
+
+    if(cloud=='azure'):
+     os.system('/bin/bash --rcfile sh shell8.sh '+ str(username) + ' ' + password + ' ' + str(ipaddress)+ ' ' + str(filename))
+     return (
+     '{\n'
+     '   "status" : 200 \n'
+     '}\n'
+   )   
 
 @app.errorhandler(Exception)
 def all_exception_handler(error):

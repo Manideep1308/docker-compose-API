@@ -6,6 +6,12 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
+RUN apt-get update
+
+RUN apt-get -y install openssh-server
+
+RUN apt-get install -y sshpass
+
 COPY . . 
 
 EXPOSE 1564
